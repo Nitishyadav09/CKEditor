@@ -66,7 +66,7 @@ import './App.css';
 
 export default function App() {
   const [editorData, setEditorData] = useState('');
-  const [files, setFiles] = useState(["Protocol_Document_Template.docx"]);
+  const [files, setFiles] = useState(["Protocol_Document_Template.docx", "sample.docx"]);
   const [selectedFile, setSelectedFile] = useState('');
 
   const [editorInstance, setEditorInstance] = useState(null);
@@ -145,12 +145,14 @@ export default function App() {
   }, [editorInstance]);
 
   const handleFileChange = async (event) => {
+    setEditorData('');
     const fileName = event.target.value;
     setSelectedFile(fileName);
 
     if (editorInstance) {
       try {
-        const response = await fetch(`/src/assets/${fileName}`);
+        const baseUrl = import.meta.env.BASE_URL;
+        const response = await fetch(`${baseUrl}${fileName}`);
 
         if (!response.ok) {
           throw new Error(`Failed to fetch file: ${response.statusText}`);
@@ -447,7 +449,7 @@ export default function App() {
         </FormControl>
         </div>
         <div>
-         <h3 style={{textAlign:'left', margin:'0', color:"#1565c0"}}>Suggestion(s) :</h3>
+        {editorData && <h3 style={{textAlign:'left', margin:'0', color:"#1565c0"}}>Suggestion(s) :</h3>}
          {editorData && <div style={{border:"0.5px solid #cbcbcb", borderRadius:'5px', padding:'0.5rem', marginTop:'0.5rem', backgroundColor:'white'}}>
           <div style={{display:'flex', gap:'1rem', marginBottom: "0.7rem"}}>
             <p style={{fontWeight:"bold", margin:'0'}}>Selected Text :</p>
