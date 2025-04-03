@@ -451,12 +451,12 @@ export default function App() {
         <div>
         {editorData && <h3 style={{textAlign:'left', margin:'0', color:"#1565c0"}}>Suggestion(s) :</h3>}
          {editorData && <div style={{border:"0.5px solid #cbcbcb", borderRadius:'5px', padding:'0.5rem', marginTop:'0.5rem', backgroundColor:'white'}}>
-          <div style={{display:'flex', gap:'1rem', marginBottom: "0.7rem"}}>
-            <p style={{fontWeight:"bold", margin:'0'}}>Selected Text :</p>
+          <div style={{display:'flex', gap:'0.2rem', marginBottom: "0.7rem"}}>
+            <p style={{fontWeight:"bold", margin:'0', minWidth: "120px"}}>Selected Text :</p>
             <p style={{margin:"0"}}>{selectedText || "No text selected"}</p>
           </div>
-          {showSuggestion && <div style={{display:'flex', gap:'1rem', marginBottom: "0.7rem"}}>
-            <p style={{fontWeight:"bold", margin:'0'}}>Suggestion :</p>
+          {showSuggestion && <div style={{display:'flex', gap:'0.2rem', marginBottom: "0.7rem"}}>
+            <p style={{fontWeight:"bold", margin:'0', minWidth: "100px"}}>Suggestion :</p>
             <p style={{margin:"0"}}>{loader ? <CircularProgress size={15}/> : suggestedText}</p>
           </div>}
           {suggestedText && <button style={{backgroundColor: "darkgreen", color: "white", padding: "0.3rem 0.8rem", display:'flex', borderRadius: "0.2rem", cursor:"pointer"}} onClick={handleReplaceClick}>REPLACE</button>}
