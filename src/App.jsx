@@ -388,7 +388,7 @@ export default function App() {
           },
           table: {
             contentToolbar: [
-              'tableColumn', 'tableRow', 'mergeTableCells', 'tableRow'
+              'tableColumn', 'tableRow', 'mergeTableCells'
             ],
             tableProperties: {
               // Disable figure wrapping for tables
@@ -459,7 +459,7 @@ export default function App() {
             <p style={{fontWeight:"bold", margin:'0', minWidth: "100px"}}>Suggestion :</p>
             <p style={{margin:"0"}}>{loader ? <CircularProgress size={15}/> : suggestedText}</p>
           </div>}
-          {suggestedText && <button style={{backgroundColor: "darkgreen", color: "white", padding: "0.3rem 0.8rem", display:'flex', borderRadius: "0.2rem", cursor:"pointer"}} onClick={handleReplaceClick}>REPLACE</button>}
+          {suggestedText && <button style={{backgroundColor: "darkgreen", color: "white", padding: "0.3rem 0.8rem",  borderRadius: "0.2rem", cursor:"pointer"}} onClick={handleReplaceClick}>REPLACE</button>}
          </div>}
         </div>
       </div>
