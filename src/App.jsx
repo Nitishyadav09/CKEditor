@@ -64,7 +64,7 @@ import {
   CloudServices,
 } from 'ckeditor5';
 
-import {ImportWord, ExportPdf, ExportWord, ImportWordEditing, ImportWordUI, FormatPainter, MultiLevelList, PasteFromOfficeEnhanced, Pagination } from 'ckeditor5-premium-features';
+import {ImportWord, ExportPdf, ExportWord, ImportWordEditing, ImportWordUI, FormatPainter, MultiLevelList, PasteFromOfficeEnhanced } from 'ckeditor5-premium-features';
 import { Select, MenuItem, FormControl, InputLabel } from '@mui/material';
 import 'ckeditor5/ckeditor5.css';
 import './App.css';
@@ -84,56 +84,120 @@ export default function App() {
   const [loader, setLoader] = useState(false);
   const [showSuggestion, setShowSuggestion] = useState(false);
 
+  const selectionTimeout = useRef(null);
+
   console.log(setFiles);
 
   const handleEditorChange = (event, editor) => {
     setEditorData(editor.getData());
   };
   
+  // const handleSelectionChange = (editor) => {
+  //   const selection = editor.model.document.selection;
+
+  //   if (!selection.isCollapsed) {
+  //     const selectedHtml = editor.data.stringify(editor.model.getSelectedContent(selection));
+  //     selectedHtmlRef.current = selectedHtml;
+
+  //     // Extract plain text from the selection
+  //     let tempDiv = document.createElement("div");
+  //     tempDiv.innerHTML = selectedHtml;
+  //     let newText = tempDiv.innerText.trim();
+
+  //     setSelectedText(newText);
+  //     setSuggestedText(""); // Clear previous suggestion
+
+  //     // Show toolbox near the selection
+  //     editor.editing.view.change((writer) => {
+  //       const viewSelection = editor.editing.view.document.selection;
+  //       const range = viewSelection.getFirstRange();
+
+  //       if (range) {
+  //         // Get selected HTML
+  //         const selectedHtml = editor.data.stringify(editor.model.getSelectedContent(selection));
+  //         selectedHtmlRef.current = selectedHtml; // Store selected HTML
+
+  //         // Get position of selected text for toolbox
+  //         const domSelection = window.getSelection();
+  //         if (domSelection.rangeCount > 0) {
+  //           const rect = domSelection.getRangeAt(0).getBoundingClientRect();
+  //           setToolboxPosition({
+  //             top: rect.top + window.scrollY - 40,
+  //             left: rect.left + window.scrollX,
+  //             visible: true,
+  //           });
+  //         }
+  //       }
+  //     });
+  //   } else {
+  //     setToolboxPosition((prev) => ({ ...prev, visible: false }));
+  //     setSelectedText("");
+  //     setSuggestedText("");
+  //     setShowSuggestion(false);
+  //   }
+  // };
+
   const handleSelectionChange = (editor) => {
-    const selection = editor.model.document.selection;
-
-    if (!selection.isCollapsed) {
-      const selectedHtml = editor.data.stringify(editor.model.getSelectedContent(selection));
-      selectedHtmlRef.current = selectedHtml;
-
-      // Extract plain text from the selection
-      let tempDiv = document.createElement("div");
-      tempDiv.innerHTML = selectedHtml;
-      let newText = tempDiv.innerText.trim();
-
-      setSelectedText(newText);
-      setSuggestedText(""); // Clear previous suggestion
-
-      // Show toolbox near the selection
-      editor.editing.view.change((writer) => {
-        const viewSelection = editor.editing.view.document.selection;
-        const range = viewSelection.getFirstRange();
-
-        if (range) {
-          // Get selected HTML
+    clearTimeout(selectionTimeout.current);
+  
+    selectionTimeout.current = setTimeout(() => {
+      const selection = editor?.model?.document?.selection;
+      if (!selection) return;
+  
+      if (!selection.isCollapsed) {
+        try {
           const selectedHtml = editor.data.stringify(editor.model.getSelectedContent(selection));
-          selectedHtmlRef.current = selectedHtml; // Store selected HTML
-
-          // Get position of selected text for toolbox
-          const domSelection = window.getSelection();
-          if (domSelection.rangeCount > 0) {
-            const rect = domSelection.getRangeAt(0).getBoundingClientRect();
-            setToolboxPosition({
-              top: rect.top + window.scrollY - 40,
-              left: rect.left + window.scrollX,
-              visible: true,
-            });
-          }
+          selectedHtmlRef.current = selectedHtml;
+  
+          // Extract plain text from the selection
+          const tempDiv = document.createElement("div");
+          tempDiv.innerHTML = selectedHtml;
+          const newText = tempDiv.innerText.trim();
+  
+          setSelectedText(newText);
+          setSuggestedText(""); // Clear previous suggestion
+  
+          // Show toolbox near the selection
+          editor.editing.view.change(() => {
+            const viewSelection = editor.editing.view.document.selection;
+            const range = viewSelection?.getFirstRange();
+  
+            if (range) {
+              const domSelection = window.getSelection();
+              if (domSelection && domSelection.rangeCount > 0) {
+                const rect = domSelection.getRangeAt(0).getBoundingClientRect();
+                setToolboxPosition({
+                  top: rect.top + window.scrollY - 40,
+                  left: rect.left + window.scrollX,
+                  visible: true,
+                });
+              }
+            }
+          });
+        } catch (err) {
+          console.warn('Selection handling error:', err);
         }
-      });
-    } else {
-      setToolboxPosition((prev) => ({ ...prev, visible: false }));
-      setSelectedText("");
-      setSuggestedText("");
-      setShowSuggestion(false);
-    }
+      } else {
+        setToolboxPosition((prev) => ({ ...prev, visible: false }));
+        setSelectedText("");
+        setSuggestedText("");
+        setShowSuggestion(false);
+      }
+    }, 60); // Debounce a little to smooth selection
   };
+
+  useEffect(() => {
+    if (!editorInstance) return;
+  
+    const onSelectionChange = () => handleSelectionChange(editorInstance);
+  
+    editorInstance.model.document.selection.on('change', onSelectionChange);
+  
+    return () => {
+      clearTimeout(selectionTimeout.current);
+      editorInstance.model.document.selection.off('change', onSelectionChange);
+    };
+  }, [editorInstance]);
 
   useEffect(() => {
     if (editorInstance) {
@@ -146,6 +210,20 @@ export default function App() {
       const selectionHandler = () => handleSelectionChange(editorInstance);
       editorInstance.model.document.selection.on('change', selectionHandler);
       return () => editorInstance.model.document.selection.off('change', selectionHandler);
+    }
+  }, [editorInstance]);
+
+  const preserveScrollPosition = (callback) => {
+    const scrollY = window.scrollY;
+    callback();
+    window.scrollTo(0, scrollY);
+  };
+  
+  useEffect(() => {
+    if (editorInstance) {
+      editorInstance.model.document.selection.on('change', () => {
+        preserveScrollPosition(() => handleSelectionChange(editorInstance));
+      });
     }
   }, [editorInstance]);
 
@@ -180,6 +258,8 @@ export default function App() {
       }
     }
   };
+
+  console.log(window.scrollY, "scrollY")
   
   const sendHtmlToBackend = async () => {
     setLoader(true);
@@ -253,16 +333,15 @@ export default function App() {
             'fontFamily', 'fontSize', 'fontColor', 'formatPainter', '|',
             'heading', '|', 'bold', 'italic', 'underline', 'strikethrough', '|',
             'alignment', 'outdent', 'indent', '|',
-            'link', 'insertTable', 'tableCellProperties', 'tableProperties', 'mergeTableCells', 'tableColumn', 'tableRow', 'TableColumnResize', '|',
+            'link', 'insertTable', 'tableCellProperties', 'tableProperties', 'mergeTableCells', 'tableColumn', 'tableRow', '|',
             'mediaEmbed', 'imageUpload', 'imageInsert', '|',
             'bulletedList', 'numberedList', 'todoList', 'multiLevelList', '|',
             'codeBlock', 'blockQuote', 'highlight', '|',
             'subscript', 'superscript', 'horizontalLine', '|',
             'removeFormat', 'findAndReplace', 'specialCharacters', '|',
-            'pagination','documentOutline'
           ],
           plugins: [
-            ImportWordEditing, ImportWordUI,ImportWord, FormatPainter, MultiLevelList, PasteFromOfficeEnhanced, Pagination, ExportPdf, ExportWord,
+            ImportWordEditing, ImportWordUI,ImportWord, FormatPainter, MultiLevelList, PasteFromOfficeEnhanced, ExportPdf, ExportWord,
             Alignment,
             Autoformat,
             BlockQuote,
@@ -403,6 +482,9 @@ export default function App() {
             tableProperties: {
               // Disable figure wrapping for tables
               style: 'display: table;'
+            },
+            tableSelection: {
+              enable: true, // Explicitly enable multiple cell selection
             }
           },
           pasteFromOffice: {
