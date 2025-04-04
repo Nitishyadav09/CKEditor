@@ -36,7 +36,6 @@ import {
   ListProperties,
   MediaEmbed,
   MediaEmbedToolbar,
-  PageBreak,
   Paragraph,
   PasteFromOffice,
   RemoveFormat,
@@ -50,6 +49,12 @@ import {
   TableToolbar,
   TableColumnResize,
   TextTransformation,
+  TableSelection,
+  TableMouse,
+  TableKeyboard,
+  TableUI,
+  TableUtils,
+  TableClipboard,
   TodoList,
   Underline,
   Undo,
@@ -59,7 +64,7 @@ import {
   CloudServices,
 } from 'ckeditor5';
 
-import {ImportWord, ExportPdf, ExportWord, ImportWordEditing, ImportWordUI, FormatPainter, MultiLevelList, PasteFromOfficeEnhanced, Pagination} from 'ckeditor5-premium-features';
+import {ImportWord, ExportPdf, ExportWord, ImportWordEditing, ImportWordUI, FormatPainter, MultiLevelList, PasteFromOfficeEnhanced, Pagination } from 'ckeditor5-premium-features';
 import { Select, MenuItem, FormControl, InputLabel } from '@mui/material';
 import 'ckeditor5/ckeditor5.css';
 import './App.css';
@@ -254,7 +259,7 @@ export default function App() {
             'codeBlock', 'blockQuote', 'highlight', '|',
             'subscript', 'superscript', 'horizontalLine', '|',
             'removeFormat', 'findAndReplace', 'specialCharacters', '|',
-            'pageBreak', 'pagination','documentOutline'
+            'pagination','documentOutline'
           ],
           plugins: [
             ImportWordEditing, ImportWordUI,ImportWord, FormatPainter, MultiLevelList, PasteFromOfficeEnhanced, Pagination, ExportPdf, ExportWord,
@@ -289,7 +294,6 @@ export default function App() {
             ListProperties,
             MediaEmbed,
             MediaEmbedToolbar,
-            PageBreak,
             Paragraph,
             PasteFromOffice,
             RemoveFormat,
@@ -303,6 +307,12 @@ export default function App() {
             TableToolbar,
             TableColumnResize, 
             TextTransformation,
+            TableSelection,
+            TableMouse,
+            TableKeyboard,
+            TableUI,
+            TableUtils,
+            TableClipboard,
             TodoList,
             Underline,
             Undo,

@@ -21,6 +21,11 @@
   position: relative;
 }
 
+.ck-editor__editable_inline{
+  height: 84vh;
+  overflow: auto;
+}
+
 .logo {
   height: 6em;
   padding: 1.5em;
