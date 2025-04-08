@@ -24,10 +24,10 @@ import {
   Image,
   ImageCaption,
   ImageInsert,
+  ImageUpload,
   ImageResize,
   ImageStyle,
   ImageToolbar,
-  ImageUpload,
   Indent,
   IndentBlock,
   Italic,
@@ -258,8 +258,6 @@ export default function App() {
       }
     }
   };
-
-  console.log(window.scrollY, "scrollY")
   
   const sendHtmlToBackend = async () => {
     setLoader(true);
@@ -330,13 +328,13 @@ export default function App() {
           toolbar: [
             'importWord', 'exportPdf', 'exportWord', '|',
             'undo', 'redo', '|',
-            'fontFamily', 'fontSize', 'fontColor', 'formatPainter', '|',
+            'fontFamily', 'fontSize', 'fontColor', 'highlight', 'formatPainter', '|',
             'heading', '|', 'bold', 'italic', 'underline', 'strikethrough', '|',
             'alignment', 'outdent', 'indent', '|',
             'link', 'insertTable', 'tableCellProperties', 'tableProperties', 'mergeTableCells', 'tableColumn', 'tableRow', '|',
-            'mediaEmbed', 'imageUpload', 'imageInsert', '|',
+            'mediaEmbed', 'ImageUpload', 'ImageToolbar', '|',
             'bulletedList', 'numberedList', 'todoList', 'multiLevelList', '|',
-            'codeBlock', 'blockQuote', 'highlight', '|',
+            'codeBlock', 'blockQuote', '|',
             'subscript', 'superscript', 'horizontalLine', '|',
             'removeFormat', 'findAndReplace', 'specialCharacters', '|',
           ],
@@ -361,10 +359,10 @@ export default function App() {
             Image,
             ImageCaption,
             ImageInsert,
+            ImageUpload,
             ImageResize,
             ImageStyle,
             ImageToolbar,
-            ImageUpload,
             Indent,
             IndentBlock,
             Italic,
@@ -485,6 +483,11 @@ export default function App() {
             },
             tableSelection: {
               enable: true, // Explicitly enable multiple cell selection
+            }
+          },
+          image: {
+            upload: {
+              types: ['jpeg', 'png', 'gif', 'bmp', 'webp', 'tiff']
             }
           },
           pasteFromOffice: {
