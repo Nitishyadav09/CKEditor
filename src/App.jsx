@@ -62,6 +62,7 @@ import {
   Mention,
   Bookmark,
   CloudServices,
+  Base64UploadAdapter
 } from 'ckeditor5';
 
 import {ImportWord, ExportPdf, ExportWord, ImportWordEditing, ImportWordUI, FormatPainter, MultiLevelList, PasteFromOfficeEnhanced } from 'ckeditor5-premium-features';
@@ -332,7 +333,7 @@ export default function App() {
             'heading', '|', 'bold', 'italic', 'underline', 'strikethrough', '|',
             'alignment', 'outdent', 'indent', '|',
             'link', 'insertTable', 'tableCellProperties', 'tableProperties', 'mergeTableCells', 'tableColumn', 'tableRow', '|',
-            'mediaEmbed', 'ImageUpload', 'ImageToolbar', '|',
+            'mediaEmbed', 'ImageInsert', '|',
             'bulletedList', 'numberedList', 'todoList', 'multiLevelList', '|',
             'codeBlock', 'blockQuote', '|',
             'subscript', 'superscript', 'horizontalLine', '|',
@@ -363,6 +364,7 @@ export default function App() {
             ImageResize,
             ImageStyle,
             ImageToolbar,
+            Base64UploadAdapter,
             Indent,
             IndentBlock,
             Italic,
