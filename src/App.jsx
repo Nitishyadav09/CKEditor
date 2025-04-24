@@ -325,7 +325,7 @@ export default function App() {
         editor={ClassicEditor}
         
         config={{
-          licenseKey: 'eyJhbGciOiJFUzI1NiJ9.eyJleHAiOjE3NDQ0MTU5OTksImp0aSI6IjRmZjg0YTQ0LWQzODktNDcxZS05NjMyLTIyNzJhZjhlOWJlMSIsInVzYWdlRW5kcG9pbnQiOiJodHRwczovL3Byb3h5LWV2ZW50LmNrZWRpdG9yLmNvbSIsImRpc3RyaWJ1dGlvbkNoYW5uZWwiOlsiY2xvdWQiLCJkcnVwYWwiLCJzaCJdLCJ3aGl0ZUxhYmVsIjp0cnVlLCJsaWNlbnNlVHlwZSI6InRyaWFsIiwiZmVhdHVyZXMiOlsiKiJdLCJ2YyI6IjQwMTQyMGNkIn0.5dxVePK1-qdrqjzrCJdPVdoBTdWJq2T-QDFUkDlQUxsjliIuPOTAmsiZjKfCK29OPeUf1_b_vqxfWgazgPCFQw',
+          licenseKey: 'eyJhbGciOiJFUzI1NiJ9.eyJleHAiOjE3NDY3NDg3OTksImp0aSI6IjlhNmUyNWJmLTI1ZmYtNGVlOS1hMjRjLTk0NTExZmQ1MWQzNiIsInVzYWdlRW5kcG9pbnQiOiJodHRwczovL3Byb3h5LWV2ZW50LmNrZWRpdG9yLmNvbSIsImRpc3RyaWJ1dGlvbkNoYW5uZWwiOlsiY2xvdWQiLCJkcnVwYWwiLCJzaCJdLCJ3aGl0ZUxhYmVsIjp0cnVlLCJsaWNlbnNlVHlwZSI6InRyaWFsIiwiZmVhdHVyZXMiOlsiKiJdLCJ2YyI6IjYzN2Y3NzFhIn0.MgOAEaUjmP28u-raogsDG6KvNLYMFezcnHdC96e7DtYmqhbeuztFnNgblfzgOAM-Z114KRSUUFL3ssndusl7bg',
           toolbar: [
             'importWord', 'exportPdf', 'exportWord', '|',
             'undo', 'redo', '|',
